@@ -41,15 +41,18 @@ namespace file_remover
             this.GroupBox_Main = new System.Windows.Forms.GroupBox();
             this.RadioButton_JustRemove = new System.Windows.Forms.RadioButton();
             this.RadioButton_CleanRemove = new System.Windows.Forms.RadioButton();
-            this.TextBox_TargetExtension = new System.Windows.Forms.TextBox();
             this.DataGridView_Main = new System.Windows.Forms.DataGridView();
             this.Button_PathFind = new System.Windows.Forms.Button();
             this.Label_ProgramRunTime = new System.Windows.Forms.Label();
             this.Label_TargetDriveSpace = new System.Windows.Forms.Label();
-            this.Button_Test = new System.Windows.Forms.Button();
+            this.Button_LockAndSave = new System.Windows.Forms.Button();
             this.TextBox_WorkTime = new System.Windows.Forms.MaskedTextBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.Timer_Main = new System.Windows.Forms.Timer(this.components);
+            this.TextBox_AddDays = new System.Windows.Forms.MaskedTextBox();
+            this.Button_Test = new System.Windows.Forms.Button();
+            this.Button_OpenFolder = new System.Windows.Forms.Button();
+            this.Button_LogClear = new System.Windows.Forms.Button();
+            this.Button_Manual = new System.Windows.Forms.Button();
             this.TableLayoutPanel_Main.SuspendLayout();
             this.GroupBox_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Main)).BeginInit();
@@ -57,10 +60,11 @@ namespace file_remover
             // 
             // TableLayoutPanel_Main
             // 
-            this.TableLayoutPanel_Main.ColumnCount = 4;
-            this.TableLayoutPanel_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
+            this.TableLayoutPanel_Main.ColumnCount = 5;
+            this.TableLayoutPanel_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
             this.TableLayoutPanel_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.TableLayoutPanel_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
+            this.TableLayoutPanel_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.TableLayoutPanel_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.TableLayoutPanel_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.TableLayoutPanel_Main.Controls.Add(this.label1, 0, 0);
             this.TableLayoutPanel_Main.Controls.Add(this.label2, 0, 1);
@@ -70,14 +74,17 @@ namespace file_remover
             this.TableLayoutPanel_Main.Controls.Add(this.label6, 2, 5);
             this.TableLayoutPanel_Main.Controls.Add(this.TextBox_TargetPath, 1, 0);
             this.TableLayoutPanel_Main.Controls.Add(this.GroupBox_Main, 1, 1);
-            this.TableLayoutPanel_Main.Controls.Add(this.TextBox_TargetExtension, 1, 2);
             this.TableLayoutPanel_Main.Controls.Add(this.DataGridView_Main, 0, 4);
             this.TableLayoutPanel_Main.Controls.Add(this.Button_PathFind, 3, 0);
             this.TableLayoutPanel_Main.Controls.Add(this.Label_ProgramRunTime, 1, 5);
             this.TableLayoutPanel_Main.Controls.Add(this.Label_TargetDriveSpace, 3, 5);
-            this.TableLayoutPanel_Main.Controls.Add(this.Button_Test, 3, 3);
+            this.TableLayoutPanel_Main.Controls.Add(this.Button_LockAndSave, 3, 3);
             this.TableLayoutPanel_Main.Controls.Add(this.TextBox_WorkTime, 1, 3);
-            this.TableLayoutPanel_Main.Controls.Add(this.label7, 3, 2);
+            this.TableLayoutPanel_Main.Controls.Add(this.TextBox_AddDays, 1, 2);
+            this.TableLayoutPanel_Main.Controls.Add(this.Button_Test, 3, 2);
+            this.TableLayoutPanel_Main.Controls.Add(this.Button_OpenFolder, 4, 0);
+            this.TableLayoutPanel_Main.Controls.Add(this.Button_LogClear, 4, 3);
+            this.TableLayoutPanel_Main.Controls.Add(this.Button_Manual, 4, 2);
             this.TableLayoutPanel_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TableLayoutPanel_Main.Location = new System.Drawing.Point(0, 0);
             this.TableLayoutPanel_Main.Name = "TableLayoutPanel_Main";
@@ -97,7 +104,7 @@ namespace file_remover
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(124, 25);
+            this.label1.Size = new System.Drawing.Size(144, 25);
             this.label1.TabIndex = 0;
             this.label1.Text = "타겟 경로";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -108,7 +115,7 @@ namespace file_remover
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label2.Location = new System.Drawing.Point(3, 25);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(124, 45);
+            this.label2.Size = new System.Drawing.Size(144, 45);
             this.label2.TabIndex = 1;
             this.label2.Text = "완전삭제 유무";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -119,9 +126,9 @@ namespace file_remover
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Location = new System.Drawing.Point(3, 70);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(124, 25);
+            this.label3.Size = new System.Drawing.Size(144, 25);
             this.label3.TabIndex = 2;
-            this.label3.Text = "타겟 확장자";
+            this.label3.Text = "보존일 (오늘로 부터)";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label4
@@ -130,9 +137,9 @@ namespace file_remover
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label4.Location = new System.Drawing.Point(3, 95);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(124, 25);
+            this.label4.Size = new System.Drawing.Size(144, 25);
             this.label4.TabIndex = 3;
-            this.label4.Text = "수행시간";
+            this.label4.Text = "수행시간 (매일)";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label5
@@ -141,7 +148,7 @@ namespace file_remover
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label5.Location = new System.Drawing.Point(3, 425);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(124, 25);
+            this.label5.Size = new System.Drawing.Size(144, 25);
             this.label5.TabIndex = 4;
             this.label5.Text = "프로그램 동작시간";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -150,9 +157,9 @@ namespace file_remover
             // 
             this.label6.AutoSize = true;
             this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label6.Location = new System.Drawing.Point(403, 425);
+            this.label6.Location = new System.Drawing.Point(343, 425);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(124, 25);
+            this.label6.Size = new System.Drawing.Size(144, 25);
             this.label6.TabIndex = 5;
             this.label6.Text = "타겟 드라이브 여유";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -162,9 +169,9 @@ namespace file_remover
             this.TableLayoutPanel_Main.SetColumnSpan(this.TextBox_TargetPath, 2);
             this.TextBox_TargetPath.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TextBox_TargetPath.Enabled = false;
-            this.TextBox_TargetPath.Location = new System.Drawing.Point(133, 3);
+            this.TextBox_TargetPath.Location = new System.Drawing.Point(153, 3);
             this.TextBox_TargetPath.Name = "TextBox_TargetPath";
-            this.TextBox_TargetPath.Size = new System.Drawing.Size(394, 21);
+            this.TextBox_TargetPath.Size = new System.Drawing.Size(334, 21);
             this.TextBox_TargetPath.TabIndex = 6;
             // 
             // GroupBox_Main
@@ -174,9 +181,9 @@ namespace file_remover
             this.GroupBox_Main.Controls.Add(this.RadioButton_CleanRemove);
             this.GroupBox_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GroupBox_Main.Enabled = false;
-            this.GroupBox_Main.Location = new System.Drawing.Point(133, 28);
+            this.GroupBox_Main.Location = new System.Drawing.Point(153, 28);
             this.GroupBox_Main.Name = "GroupBox_Main";
-            this.GroupBox_Main.Size = new System.Drawing.Size(394, 39);
+            this.GroupBox_Main.Size = new System.Drawing.Size(334, 39);
             this.GroupBox_Main.TabIndex = 7;
             this.GroupBox_Main.TabStop = false;
             // 
@@ -202,23 +209,13 @@ namespace file_remover
             this.RadioButton_CleanRemove.Text = "예";
             this.RadioButton_CleanRemove.UseVisualStyleBackColor = true;
             // 
-            // TextBox_TargetExtension
-            // 
-            this.TableLayoutPanel_Main.SetColumnSpan(this.TextBox_TargetExtension, 2);
-            this.TextBox_TargetExtension.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TextBox_TargetExtension.Enabled = false;
-            this.TextBox_TargetExtension.Location = new System.Drawing.Point(133, 73);
-            this.TextBox_TargetExtension.Name = "TextBox_TargetExtension";
-            this.TextBox_TargetExtension.Size = new System.Drawing.Size(394, 21);
-            this.TextBox_TargetExtension.TabIndex = 8;
-            // 
             // DataGridView_Main
             // 
             this.DataGridView_Main.AllowUserToAddRows = false;
             this.DataGridView_Main.AllowUserToDeleteRows = false;
             this.DataGridView_Main.AllowUserToResizeRows = false;
             this.DataGridView_Main.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.TableLayoutPanel_Main.SetColumnSpan(this.DataGridView_Main, 4);
+            this.TableLayoutPanel_Main.SetColumnSpan(this.DataGridView_Main, 5);
             this.DataGridView_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DataGridView_Main.Location = new System.Drawing.Point(3, 123);
             this.DataGridView_Main.Name = "DataGridView_Main";
@@ -230,9 +227,9 @@ namespace file_remover
             // Button_PathFind
             // 
             this.Button_PathFind.Enabled = false;
-            this.Button_PathFind.Location = new System.Drawing.Point(533, 3);
+            this.Button_PathFind.Location = new System.Drawing.Point(493, 3);
             this.Button_PathFind.Name = "Button_PathFind";
-            this.Button_PathFind.Size = new System.Drawing.Size(75, 19);
+            this.Button_PathFind.Size = new System.Drawing.Size(110, 19);
             this.Button_PathFind.TabIndex = 11;
             this.Button_PathFind.Text = "찾기";
             this.Button_PathFind.UseVisualStyleBackColor = true;
@@ -241,9 +238,9 @@ namespace file_remover
             // 
             this.Label_ProgramRunTime.AutoSize = true;
             this.Label_ProgramRunTime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Label_ProgramRunTime.Location = new System.Drawing.Point(133, 425);
+            this.Label_ProgramRunTime.Location = new System.Drawing.Point(153, 425);
             this.Label_ProgramRunTime.Name = "Label_ProgramRunTime";
-            this.Label_ProgramRunTime.Size = new System.Drawing.Size(264, 25);
+            this.Label_ProgramRunTime.Size = new System.Drawing.Size(184, 25);
             this.Label_ProgramRunTime.TabIndex = 12;
             this.Label_ProgramRunTime.Text = "Label_ProgramRunTime";
             this.Label_ProgramRunTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -251,50 +248,92 @@ namespace file_remover
             // Label_TargetDriveSpace
             // 
             this.Label_TargetDriveSpace.AutoSize = true;
+            this.TableLayoutPanel_Main.SetColumnSpan(this.Label_TargetDriveSpace, 2);
             this.Label_TargetDriveSpace.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Label_TargetDriveSpace.Location = new System.Drawing.Point(533, 425);
+            this.Label_TargetDriveSpace.Location = new System.Drawing.Point(493, 425);
             this.Label_TargetDriveSpace.Name = "Label_TargetDriveSpace";
-            this.Label_TargetDriveSpace.Size = new System.Drawing.Size(264, 25);
+            this.Label_TargetDriveSpace.Size = new System.Drawing.Size(304, 25);
             this.Label_TargetDriveSpace.TabIndex = 13;
             this.Label_TargetDriveSpace.Text = "Label_TargetDriveSpace";
             this.Label_TargetDriveSpace.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // Button_Test
+            // Button_LockAndSave
             // 
-            this.Button_Test.Location = new System.Drawing.Point(533, 98);
-            this.Button_Test.Name = "Button_Test";
-            this.Button_Test.Size = new System.Drawing.Size(150, 19);
-            this.Button_Test.TabIndex = 14;
-            this.Button_Test.Text = "잠금 및 적용";
-            this.Button_Test.UseVisualStyleBackColor = true;
-            this.Button_Test.Click += new System.EventHandler(this.ClickTestButton);
+            this.Button_LockAndSave.Location = new System.Drawing.Point(493, 98);
+            this.Button_LockAndSave.Name = "Button_LockAndSave";
+            this.Button_LockAndSave.Size = new System.Drawing.Size(110, 19);
+            this.Button_LockAndSave.TabIndex = 14;
+            this.Button_LockAndSave.Text = "잠금 및 적용";
+            this.Button_LockAndSave.UseVisualStyleBackColor = true;
+            this.Button_LockAndSave.Click += new System.EventHandler(this.ClickButtonLockAndSave);
             // 
             // TextBox_WorkTime
             // 
             this.TableLayoutPanel_Main.SetColumnSpan(this.TextBox_WorkTime, 2);
             this.TextBox_WorkTime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TextBox_WorkTime.Enabled = false;
-            this.TextBox_WorkTime.Location = new System.Drawing.Point(133, 98);
+            this.TextBox_WorkTime.Location = new System.Drawing.Point(153, 98);
             this.TextBox_WorkTime.Mask = "90시90분";
             this.TextBox_WorkTime.Name = "TextBox_WorkTime";
-            this.TextBox_WorkTime.Size = new System.Drawing.Size(394, 21);
+            this.TextBox_WorkTime.Size = new System.Drawing.Size(334, 21);
             this.TextBox_WorkTime.TabIndex = 15;
             this.TextBox_WorkTime.ValidatingType = typeof(System.DateTime);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label7.Location = new System.Drawing.Point(533, 70);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(264, 25);
-            this.label7.TabIndex = 16;
-            this.label7.Text = "<< 공사중. 동작안함";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Timer_Main
             // 
             this.Timer_Main.Interval = 1000;
+            // 
+            // TextBox_AddDays
+            // 
+            this.TableLayoutPanel_Main.SetColumnSpan(this.TextBox_AddDays, 2);
+            this.TextBox_AddDays.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TextBox_AddDays.Enabled = false;
+            this.TextBox_AddDays.Location = new System.Drawing.Point(153, 73);
+            this.TextBox_AddDays.Mask = "-9";
+            this.TextBox_AddDays.Name = "TextBox_AddDays";
+            this.TextBox_AddDays.Size = new System.Drawing.Size(334, 21);
+            this.TextBox_AddDays.TabIndex = 16;
+            this.TextBox_AddDays.ValidatingType = typeof(int);
+            // 
+            // Button_Test
+            // 
+            this.Button_Test.Location = new System.Drawing.Point(493, 73);
+            this.Button_Test.Name = "Button_Test";
+            this.Button_Test.Size = new System.Drawing.Size(110, 19);
+            this.Button_Test.TabIndex = 17;
+            this.Button_Test.Text = "테스트";
+            this.Button_Test.UseVisualStyleBackColor = true;
+            this.Button_Test.Click += new System.EventHandler(this.ClickTestButton);
+            // 
+            // Button_OpenFolder
+            // 
+            this.Button_OpenFolder.Location = new System.Drawing.Point(613, 3);
+            this.Button_OpenFolder.Name = "Button_OpenFolder";
+            this.Button_OpenFolder.Size = new System.Drawing.Size(110, 19);
+            this.Button_OpenFolder.TabIndex = 18;
+            this.Button_OpenFolder.Text = "열기";
+            this.Button_OpenFolder.UseVisualStyleBackColor = true;
+            this.Button_OpenFolder.Click += new System.EventHandler(this.ClickOpenFolder);
+            // 
+            // Button_LogClear
+            // 
+            this.Button_LogClear.Location = new System.Drawing.Point(613, 98);
+            this.Button_LogClear.Name = "Button_LogClear";
+            this.Button_LogClear.Size = new System.Drawing.Size(110, 19);
+            this.Button_LogClear.TabIndex = 19;
+            this.Button_LogClear.Text = "로그 비우기";
+            this.Button_LogClear.UseVisualStyleBackColor = true;
+            this.Button_LogClear.Click += new System.EventHandler(this.ClickLogClear);
+            // 
+            // Button_Manual
+            // 
+            this.Button_Manual.Location = new System.Drawing.Point(613, 73);
+            this.Button_Manual.Name = "Button_Manual";
+            this.Button_Manual.Size = new System.Drawing.Size(110, 19);
+            this.Button_Manual.TabIndex = 20;
+            this.Button_Manual.Text = "사용 설명서";
+            this.Button_Manual.UseVisualStyleBackColor = true;
+            this.Button_Manual.Click += new System.EventHandler(this.ClickButtonHelp);
             // 
             // Main
             // 
@@ -328,7 +367,6 @@ namespace file_remover
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox TextBox_TargetPath;
-        private System.Windows.Forms.TextBox TextBox_TargetExtension;
         private System.Windows.Forms.DataGridView DataGridView_Main;
         private System.Windows.Forms.Button Button_PathFind;
         private System.Windows.Forms.GroupBox GroupBox_Main;
@@ -336,10 +374,14 @@ namespace file_remover
         private System.Windows.Forms.RadioButton RadioButton_CleanRemove;
         private System.Windows.Forms.Label Label_ProgramRunTime;
         private System.Windows.Forms.Label Label_TargetDriveSpace;
-        private System.Windows.Forms.Button Button_Test;
+        private System.Windows.Forms.Button Button_LockAndSave;
         private System.Windows.Forms.Timer Timer_Main;
         private System.Windows.Forms.MaskedTextBox TextBox_WorkTime;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.MaskedTextBox TextBox_AddDays;
+        private System.Windows.Forms.Button Button_Test;
+        private System.Windows.Forms.Button Button_OpenFolder;
+        private System.Windows.Forms.Button Button_LogClear;
+        private System.Windows.Forms.Button Button_Manual;
     }
 }
 

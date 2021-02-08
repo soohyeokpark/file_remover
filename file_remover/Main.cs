@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -57,9 +58,10 @@ namespace file_remover
         private void RemoveFiles()
         {
             // dynamic where clause 해결되면 확장자 필터링 넣을 것
-            string extensionFilter = this.TextBox_TargetExtension.Text.Trim();
-            var files = Directory.GetFiles(this.TextBox_TargetPath.Text, "*.*", System.IO.SearchOption.AllDirectories).
-                Select(f => new FileInfo(f)).Where(f => f.CreationTime <= DateTime.Now.AddDays(0)); // .OrderBy(f => f.CreationTime)
+            var files = Directory.GetFiles(this.TextBox_TargetPath.Text, "*.*", System.IO.SearchOption.AllDirectories)
+                .Select(f => new FileInfo(f))
+                .Where(f => f.CreationTime < DateTime.Now.AddDays(int.Parse(this.TextBox_AddDays.Text))); 
+            // .OrderBy(f => f.CreationTime)
 
             // 제거 옵션& 제거
             string fullName = "";
@@ -137,7 +139,7 @@ namespace file_remover
             this.TextBox_TargetPath.Text = GetConfig("TARGET_PATH");
             this.RadioButton_CleanRemove.Checked = GetConfig("CLEAN_REMOVE_YN") == "Y" ? true : false;
             this.RadioButton_JustRemove.Checked = GetConfig("CLEAN_REMOVE_YN") == "N" ? true : false;
-            this.TextBox_TargetExtension.Text = GetConfig("TARGET_EXTENSION");
+            this.TextBox_AddDays.Text = GetConfig("ADD_DAYS");
             this.TextBox_WorkTime.Text = GetConfig("WORK_TIME");
             this.Label_ProgramRunTime.Text = "00:00:00";
             this.Label_TargetDriveSpace.Text = "";
@@ -151,9 +153,11 @@ namespace file_remover
 
             ControlList.Add(this.TextBox_TargetPath);
             ControlList.Add(this.GroupBox_Main);
-            ControlList.Add(this.TextBox_TargetExtension);
+            ControlList.Add(this.TextBox_AddDays);
             ControlList.Add(this.TextBox_WorkTime);
             ControlList.Add(this.Button_PathFind);
+
+            AppendLog("프로그램 시작");
         }
 
         private void ClickButtonPathFind(object sender, EventArgs e)
@@ -196,13 +200,21 @@ namespace file_remover
 
         private void ClickTestButton(object sender, EventArgs e)
         {
-            // test
-            if(true == this.TestMode)
+            if (true == this.TestMode)
             {
                 RemoveFiles();
                 GC.Collect();
-            }            
+            }
+        }
 
+        private void ClosingMainForm(object sender, FormClosingEventArgs e)
+        {
+            DialogResult result = MessageBox.Show("정말요?", "경고", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            e.Cancel = result == DialogResult.OK ? false : true;
+        }
+
+        private void ClickButtonLockAndSave(object sender, EventArgs e)
+        {
             // control enabled
             this.EditMode = !this.EditMode;
             foreach (Control c in this.ControlList)
@@ -211,17 +223,30 @@ namespace file_remover
             }
 
             // update config ini
-            WriteConfig("TARGET_PATH", this.TextBox_TargetPath.Text.Trim());
-            WriteConfig("CLEAN_REMOVE_YN", this.RadioButton_CleanRemove.Checked == true ? "Y" : "N");
-            WriteConfig("TARGET_EXTENSION", this.TextBox_TargetExtension.Text.Trim());
-            WriteConfig("WORK_TIME", this.TextBox_WorkTime.Text.Trim());
+            if (false == this.EditMode)
+            {
+                WriteConfig("TARGET_PATH", this.TextBox_TargetPath.Text.Trim());
+                WriteConfig("CLEAN_REMOVE_YN", this.RadioButton_CleanRemove.Checked == true ? "Y" : "N");
+                WriteConfig("ADD_DAYS", this.TextBox_AddDays.Text.Trim());
+                WriteConfig("WORK_TIME", this.TextBox_WorkTime.Text.Trim());
+                AppendLog("프로그램 설정 변경 완료");
+            }            
         }
 
-        private void ClosingMainForm(object sender, FormClosingEventArgs e)
+        private void ClickOpenFolder(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("정말요?", "경고", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
-            e.Cancel = result == DialogResult.OK ? false : true;
+            Process.Start(this.TextBox_TargetPath.Text);
         }
-        #endregion        
+
+        private void ClickLogClear(object sender, EventArgs e)
+        {
+            this.DataGridView_Main.Rows.Clear();
+        }
+
+        private void ClickButtonHelp(object sender, EventArgs e)
+        {
+            Process.Start(string.Format(@"{0}/{1}", Application.StartupPath, "readme.txt"));
+        }
+        #endregion
     }
 }
