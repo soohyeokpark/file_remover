@@ -6,3 +6,11 @@ C:\Users\soohyeok.park\Desktop\workspace\file_remover\file_remover\obj\Debug\fil
 C:\Users\soohyeok.park\Desktop\workspace\file_remover\file_remover\obj\Debug\file_remover.csproj.CoreCompileInputs.cache
 C:\Users\soohyeok.park\Desktop\workspace\file_remover\file_remover\obj\Debug\file_remover.exe
 C:\Users\soohyeok.park\Desktop\workspace\file_remover\file_remover\obj\Debug\file_remover.pdb
+C:\Users\박수혁\Desktop\workspace\file_remover\file_remover\bin\Debug\file_remover.exe
+C:\Users\박수혁\Desktop\workspace\file_remover\file_remover\bin\Debug\file_remover.pdb
+C:\Users\박수혁\Desktop\workspace\file_remover\file_remover\obj\Debug\file_remover.Main.resources
+C:\Users\박수혁\Desktop\workspace\file_remover\file_remover\obj\Debug\file_remover.Properties.Resources.resources
+C:\Users\박수혁\Desktop\workspace\file_remover\file_remover\obj\Debug\file_remover.csproj.GenerateResource.cache
+C:\Users\박수혁\Desktop\workspace\file_remover\file_remover\obj\Debug\file_remover.csproj.CoreCompileInputs.cache
+C:\Users\박수혁\Desktop\workspace\file_remover\file_remover\obj\Debug\file_remover.exe
+C:\Users\박수혁\Desktop\workspace\file_remover\file_remover\obj\Debug\file_remover.pdb

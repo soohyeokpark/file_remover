@@ -21,6 +21,9 @@ namespace file_remover
 
         private void ShownMainForm(object sender, EventArgs e)
         {
+            this.KeyPreview = true;
+            this.KeyDown += KeyDownMainForm;
+
             this.Button_PathFind.Click += ClickButtonPathFind;
             this.Timer_Main.Tick += TickTimerMain;
             this.Timer_Main.Start();
@@ -57,11 +60,10 @@ namespace file_remover
 
         private void RemoveFiles()
         {
-            // dynamic where clause 해결되면 확장자 필터링 넣을 것
             var files = Directory.GetFiles(this.TextBox_TargetPath.Text, "*.*", System.IO.SearchOption.AllDirectories)
                 .Select(f => new FileInfo(f))
-                .Where(f => f.CreationTime < DateTime.Now.AddDays(int.Parse(this.TextBox_AddDays.Text))); 
-            // .OrderBy(f => f.CreationTime)
+                .Where(f => f.CreationTime < DateTime.Now.AddDays(int.Parse(this.TextBox_AddDays.Text)))
+                .Where(f => TextBox_RemoveExtension.Text.ToLower().Contains(f.Extension.ToLower()));
 
             // 제거 옵션& 제거
             string fullName = "";
@@ -123,7 +125,7 @@ namespace file_remover
         {
             try
             {
-                this.DataGridView_Main.Rows.Insert(0, DateTime.Now.ToString("yyyy-mm-dd hh:mm:ss"), _message.Trim());
+                this.DataGridView_Main.Rows.Insert(0, DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"), _message.Trim());
 
                 if (this.DataGridView_Main.Rows.Count > 50)
                 {
@@ -135,15 +137,18 @@ namespace file_remover
 
         private void LoadMainForm(object sender, EventArgs e)
         {
+            // 잡다 컨트롤 config 설정값 받아오기
             this.TestMode = GetConfig("TEST_MODE") == "Y" ? true : false;
             this.TextBox_TargetPath.Text = GetConfig("TARGET_PATH");
             this.RadioButton_CleanRemove.Checked = GetConfig("CLEAN_REMOVE_YN") == "Y" ? true : false;
             this.RadioButton_JustRemove.Checked = GetConfig("CLEAN_REMOVE_YN") == "N" ? true : false;
             this.TextBox_AddDays.Text = GetConfig("ADD_DAYS");
             this.TextBox_WorkTime.Text = GetConfig("WORK_TIME");
+            this.TextBox_RemoveExtension.Text = GetConfig("TARGET_EXTENSION");
             this.Label_ProgramRunTime.Text = "00:00:00";
-            this.Label_TargetDriveSpace.Text = "";
+            this.Label_TargetDriveSpace.Text = "";            
 
+            // 그리드뷰
             this.DataGridView_Main.Columns.Add("time", "시간");
             this.DataGridView_Main.Columns.Add("message", "내용");
             this.DataGridView_Main.Columns[0].Width = 150;
@@ -151,11 +156,13 @@ namespace file_remover
             typeof(DataGridView).InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, 
                 null, this.DataGridView_Main, new object[] { true });
 
+            // 관리 하고자 하는 놈들
             ControlList.Add(this.TextBox_TargetPath);
             ControlList.Add(this.GroupBox_Main);
             ControlList.Add(this.TextBox_AddDays);
             ControlList.Add(this.TextBox_WorkTime);
             ControlList.Add(this.Button_PathFind);
+            ControlList.Add(this.TextBox_RemoveExtension);
 
             AppendLog("프로그램 시작");
         }
@@ -229,6 +236,7 @@ namespace file_remover
                 WriteConfig("CLEAN_REMOVE_YN", this.RadioButton_CleanRemove.Checked == true ? "Y" : "N");
                 WriteConfig("ADD_DAYS", this.TextBox_AddDays.Text.Trim());
                 WriteConfig("WORK_TIME", this.TextBox_WorkTime.Text.Trim());
+                WriteConfig("TARGET_EXTENSION", this.TextBox_RemoveExtension.Text.Trim());
                 AppendLog("프로그램 설정 변경 완료");
             }            
         }
@@ -246,6 +254,15 @@ namespace file_remover
         private void ClickButtonHelp(object sender, EventArgs e)
         {
             Process.Start(string.Format(@"{0}/{1}", Application.StartupPath, "readme.txt"));
+        }
+
+        private void KeyDownMainForm(object sender, KeyEventArgs e)
+        {
+            switch(e.KeyCode)
+            {
+                case Keys.F1: ClickButtonHelp(this, null); break;
+                case Keys.F2: ClickLogClear(this, null); break;
+            }
         }
         #endregion
     }
